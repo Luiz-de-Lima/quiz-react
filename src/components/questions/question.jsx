@@ -33,55 +33,47 @@ export default function Questions() {
     },
   ];
 
-  const [AtualQuestion, setQuestion] = useState(0);
-  const [Result, setResult] = useState(0);
-
+  const [state, setState] = useState({ atualQuestion: 0, result: 0 })
  
 
   const isValidityOnClick = (isCorrect) => {
-    if (isCorrect) {
-      setResult(Result + 1);
+    if(state.atualQuestion < question.length - 1) {
+      if (isCorrect) {
+        setState({
+          ...state,
+          atualQuestion: state.atualQuestion + 1,
+          result: state.result + 1
+        })
+      } else {
+        setState({
+          ...state,
+          atualQuestion: state.atualQuestion + 1,
+        })
+      }
+    } else {
+      alert('fim do questionário')
     }
-
-     const NextQuestion = AtualQuestion +1;
- 
-  if (NextQuestion < question.length) {
-    setQuestion(NextQuestion)
-  }else{
-    alert('Fim do Questionario')
-  };
- 
-
- 
-   
-
-  } /* else {
-    //console.log("fim do quiz");
-  } */
-
+  } 
 
   return (
     <div className="container">
-
-     
-
       <div className="countQuestions">
-        <span>Questão {AtualQuestion +1}
+        <span>Questão {state.atualQuestion +1}
         /{question.length}</span>
       </div>
 
       <div className="NameQuestion">
-        <h2>{question[AtualQuestion].questionText}</h2>
+        <h2>{question[state.atualQuestion].questionText}</h2>
       </div>
 
-      {question[AtualQuestion].alternativas.map((alternativa) => (
+      {question[state.atualQuestion].alternativas.map((alternativa) => (
         <button onClick={() => isValidityOnClick(alternativa.isCorrect)}>
           {alternativa.answerText}
         </button>
       ))}
 
 <div className="Result">
-        <p>Sua pontuação é {Result}</p>
+        <p>Sua pontuação é {state.result}</p>
       </div>
     </div>
   );
